@@ -1,0 +1,657 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Hideaki Muramatsu / 村松 英明</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,600;1,400&family=Inter:wght@300;400;500&family=JetBrains+Mono:wght@400&family=Noto+Sans+JP:wght@300;400;500&display=swap" rel="stylesheet" />
+  <style>
+    /* ─── Token System ─────────────────────────────────────────────────
+       Palette: deep navy, soft cream, warm amber accent, muted teal tag
+       Type: EB Garamond (display/headings) + Inter (body) + JetBrains Mono (labels)
+       Signature: a "signal waveform" SVG that pulses in the hero
+    ──────────────────────────────────────────────────────────────────── */
+    :root {
+      --navy:    #0e1a2b;
+      --navy2:   #17293f;
+      --cream:   #f5f1eb;
+      --cream2:  #ede9e1;
+      --amber:   #c8883a;
+      --amber2:  #f0b060;
+      --teal:    #3a8c8c;
+      --teal-bg: rgba(58,140,140,0.10);
+      --muted:   #7a8899;
+      --border:  rgba(255,255,255,0.07);
+      --text:    #e8e2d9;
+      --text2:   #b0bac8;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--navy);
+      color: var(--text);
+      font-family: 'Inter', sans-serif;
+      font-weight: 300;
+      line-height: 1.75;
+      font-size: 16px;
+    }
+
+    /* ─── NAV ──────────────────────────────────────────────────────── */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 1rem 2.5rem;
+      background: rgba(14,26,43,0.85);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+    }
+    .nav-name {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.8rem;
+      color: var(--amber);
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+    }
+    .nav-links { display: flex; gap: 2rem; list-style: none; }
+    .nav-links a {
+      font-size: 0.82rem;
+      color: var(--text2);
+      text-decoration: none;
+      letter-spacing: 0.06em;
+      transition: color 0.2s;
+    }
+    .nav-links a:hover { color: var(--amber2); }
+    .lang-switch {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.72rem;
+      color: var(--teal);
+      background: var(--teal-bg);
+      border: 1px solid rgba(58,140,140,0.3);
+      padding: 0.25rem 0.7rem;
+      border-radius: 3px;
+      text-decoration: none;
+      transition: color 0.2s, border-color 0.2s;
+      letter-spacing: 0.06em;
+    }
+    .lang-switch:hover { color: var(--amber2); border-color: var(--amber2); }
+
+    /* ─── HERO ─────────────────────────────────────────────────────── */
+    .hero {
+      min-height: 100vh;
+      display: flex; flex-direction: column; justify-content: center;
+      padding: 8rem 2.5rem 5rem;
+      max-width: 860px; margin: 0 auto;
+      position: relative;
+    }
+    .hero-eyebrow {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.75rem;
+      color: var(--amber);
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      margin-bottom: 1.4rem;
+    }
+    .hero h1 {
+      font-family: 'EB Garamond', serif;
+      font-size: clamp(2.8rem, 7vw, 5.2rem);
+      font-weight: 600;
+      line-height: 1.08;
+      color: var(--cream);
+      margin-bottom: 0.5rem;
+    }
+    .hero h1 .ja {
+      font-size: 0.68em;
+      font-weight: 400;
+      color: var(--amber2);
+      display: block;
+      margin-top: 0.2em;
+    }
+    .hero-wave {
+      margin: 2rem 0;
+      opacity: 0.7;
+    }
+    .hero-intro {
+      font-size: 1.05rem;
+      color: var(--text2);
+      max-width: 620px;
+      line-height: 1.85;
+    }
+    .hero-intro strong {
+      color: var(--amber2);
+      font-weight: 500;
+    }
+    .hero-tags {
+      display: flex; flex-wrap: wrap; gap: 0.6rem;
+      margin-top: 2.2rem;
+    }
+    .tag {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.73rem;
+      color: var(--teal);
+      background: var(--teal-bg);
+      border: 1px solid rgba(58,140,140,0.25);
+      padding: 0.25rem 0.75rem;
+      border-radius: 3px;
+      letter-spacing: 0.05em;
+    }
+    .scroll-hint {
+      position: absolute; bottom: 2.5rem; left: 2.5rem;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.7rem;
+      color: var(--muted);
+      letter-spacing: 0.1em;
+      display: flex; align-items: center; gap: 0.6rem;
+    }
+    .scroll-hint::before {
+      content: '';
+      display: block; width: 1px; height: 32px;
+      background: linear-gradient(to bottom, transparent, var(--muted));
+      animation: scrollDrop 1.8s ease-in-out infinite;
+    }
+    @keyframes scrollDrop {
+      0%,100%{transform:translateY(-6px);opacity:0}
+      50%{transform:translateY(6px);opacity:1}
+    }
+
+    /* ─── SECTION WRAPPER ──────────────────────────────────────────── */
+    .section {
+      max-width: 860px; margin: 0 auto;
+      padding: 5rem 2.5rem;
+      border-top: 1px solid var(--border);
+    }
+    .section-header {
+      display: flex; align-items: baseline; gap: 1rem;
+      margin-bottom: 2.8rem;
+    }
+    .section-header h2 {
+      font-family: 'EB Garamond', serif;
+      font-size: 2rem;
+      font-weight: 600;
+      color: var(--cream);
+    }
+    .section-header .en-label {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.7rem;
+      color: var(--muted);
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+    }
+
+    /* ─── RESEARCH ─────────────────────────────────────────────────── */
+    .research-block {
+      background: var(--navy2);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 2rem 2.2rem;
+      margin-bottom: 1.5rem;
+    }
+    .research-block h3 {
+      font-family: 'EB Garamond', serif;
+      font-size: 1.3rem;
+      color: var(--amber2);
+      margin-bottom: 0.8rem;
+    }
+    .research-block p {
+      color: var(--text2);
+      font-size: 0.93rem;
+      line-height: 1.82;
+    }
+    .research-block p strong { color: var(--cream); font-weight: 500; }
+
+    /* ─── EDUCATION ────────────────────────────────────────────────── */
+    .edu-item {
+      display: grid;
+      grid-template-columns: 130px 1fr;
+      gap: 1rem;
+      padding: 1.4rem 0;
+      border-bottom: 1px solid var(--border);
+    }
+    .edu-item:last-child { border-bottom: none; }
+    .edu-date {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.72rem;
+      color: var(--amber);
+      letter-spacing: 0.06em;
+      padding-top: 0.15rem;
+      line-height: 1.5;
+    }
+    .edu-body h4 {
+      font-family: 'EB Garamond', serif;
+      font-size: 1.1rem;
+      color: var(--cream);
+      font-weight: 600;
+      margin-bottom: 0.2rem;
+    }
+    .edu-body .dept {
+      font-size: 0.83rem;
+      color: var(--teal);
+      margin-bottom: 0.2rem;
+    }
+    .edu-body .degree {
+      font-size: 0.82rem;
+      color: var(--muted);
+      font-style: italic;
+    }
+    .edu-body .ja-line {
+      font-size: 0.78rem;
+      color: var(--muted);
+      margin-top: 0.35rem;
+    }
+
+    /* ─── PUBLICATIONS ─────────────────────────────────────────────── */
+    .pub-group-title {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.72rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--amber);
+      margin: 2.2rem 0 1rem;
+    }
+    .pub-item {
+      padding: 1.2rem 0;
+      border-bottom: 1px solid var(--border);
+      display: grid;
+      grid-template-columns: 28px 1fr;
+      gap: 0.8rem;
+    }
+    .pub-item:last-child { border-bottom: none; }
+    .pub-num {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.7rem;
+      color: var(--muted);
+      padding-top: 0.15rem;
+    }
+    .pub-body { font-size: 0.88rem; color: var(--text2); line-height: 1.75; }
+    .pub-body strong { color: var(--cream); font-weight: 500; }
+    .pub-body em { color: var(--text2); }
+    .pub-body a {
+      color: var(--teal);
+      text-decoration: none;
+      border-bottom: 1px solid rgba(58,140,140,0.3);
+    }
+    .pub-body a:hover { color: var(--amber2); border-color: var(--amber2); }
+    .peer-badge {
+      display: inline-block;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.63rem;
+      color: var(--teal);
+      border: 1px solid rgba(58,140,140,0.35);
+      padding: 0.1rem 0.5rem;
+      border-radius: 2px;
+      margin-left: 0.4rem;
+      vertical-align: middle;
+    }
+
+    /* ─── AWARDS ───────────────────────────────────────────────────── */
+    .award-item {
+      display: grid;
+      grid-template-columns: 28px 1fr;
+      gap: 0.8rem;
+      padding: 1.1rem 0;
+      border-bottom: 1px solid var(--border);
+    }
+    .award-item:last-child { border-bottom: none; }
+    .award-bullet {
+      width: 7px; height: 7px;
+      background: var(--amber);
+      border-radius: 50%;
+      margin-top: 0.55rem;
+    }
+    .award-body { font-size: 0.88rem; color: var(--text2); line-height: 1.75; }
+    .award-body strong { color: var(--cream); font-weight: 500; }
+
+    /* ─── SKILLS ───────────────────────────────────────────────────── */
+    .skills-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(170px, 1fr));
+      gap: 0.7rem;
+      margin-bottom: 2rem;
+    }
+    .skill-chip {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.78rem;
+      color: var(--text2);
+      background: var(--navy2);
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      padding: 0.55rem 1rem;
+      transition: border-color 0.2s, color 0.2s;
+    }
+    .skill-chip:hover { border-color: var(--amber); color: var(--amber2); }
+    .skills-sub {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.7rem;
+      color: var(--muted);
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      margin: 1.6rem 0 0.9rem;
+    }
+
+    /* ─── FOOTER ───────────────────────────────────────────────────── */
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 3rem 2.5rem;
+      max-width: 860px; margin: 0 auto;
+      display: flex; justify-content: space-between; align-items: center;
+      flex-wrap: wrap; gap: 1rem;
+    }
+    .footer-name {
+      font-family: 'EB Garamond', serif;
+      font-size: 1.05rem;
+      color: var(--cream);
+    }
+    .footer-note {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.68rem;
+      color: var(--muted);
+      letter-spacing: 0.08em;
+    }
+
+    /* ─── RESPONSIVE ───────────────────────────────────────────────── */
+    @media (max-width: 640px) {
+      nav { padding: 0.9rem 1.2rem; }
+      .nav-links { gap: 1.2rem; }
+      .hero, .section { padding-left: 1.2rem; padding-right: 1.2rem; }
+      .edu-item { grid-template-columns: 1fr; gap: 0.3rem; }
+      footer { flex-direction: column; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .scroll-hint::before { animation: none; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <span class="nav-name">H. Muramatsu</span>
+  <ul class="nav-links">
+    <li><a href="#research">Research</a></li>
+    <li><a href="#education">Education</a></li>
+    <li><a href="#publications">Publications</a></li>
+    <li><a href="#awards">Awards</a></li>
+    <li><a href="#skills">Skills</a></li>
+    <li><a href="ja.html" class="lang-switch">日本語</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <p class="hero-eyebrow">Ph.D. Student · Biomedical Engineering</p>
+  <h1>
+    Hideaki Muramatsu
+    <span class="ja">村松 英明</span>
+  </h1>
+
+
+
+  <p class="hero-intro">
+    Hello! I'm a Ph.D. student in <strong>Biomedical Engineering at George Washington University</strong> (since August 2025), working at the intersection of electromagnetic sensing and minimally invasive cancer therapy.
+    My research centers on <strong>Microwave Ablation (MWA)</strong> — real-time imaging of ablation zones and patient-specific pre-treatment planning for liver cancer using numerical simulation.
+  </p>
+  <div class="hero-tags">
+    <span class="tag">Microwave Ablation</span>
+    <span class="tag">Microwave Tomography</span>
+    <span class="tag">COMSOL Simulation</span>
+    <span class="tag">Biomedical Engineering</span>
+    <span class="tag">Cancer Treatment</span>
+  </div>
+  <div class="scroll-hint">scroll</div>
+</section>
+
+<!-- RESEARCH -->
+<section class="section" id="research">
+  <div class="section-header">
+    <h2>Research</h2>
+    <span class="en-label">研究内容</span>
+  </div>
+
+  <div class="research-block">
+    <h3>Microwave Ablation Zone Imaging (Master's Thesis)</h3>
+    <p>
+      Conventional MWA monitoring methods — ultrasound, CT, MRI — have significant limitations in real-time feedback.
+      I developed a <strong>microwave tomography</strong> approach that uses the <strong>time difference of arrival (TDOA)</strong>
+      of signals before and after ablation to estimate the treated region, then dramatically reduces the number of unknowns
+      in the tomographic reconstruction. This enabled accurate imaging of the electrical properties of ablated tissue.
+    </p>
+  </div>
+
+  <div class="research-block">
+    <h3>Patient-Specific Pre-Treatment Planning (Ph.D., GWU)</h3>
+    <p>
+      At GWU, my work focuses on <strong>numerical simulation-based pre-treatment planning for liver cancer MWA</strong>.
+      By incorporating individual anatomical data and tissue properties into COMSOL simulations, the goal is to optimize
+      microwave power and duration for each patient — enabling safer, more reliable treatments.
+      This is complemented by hands-on MWA antenna fabrication and ex vivo tissue experiments.
+      Looking ahead, I aim to collaborate with clinical partners toward eventual clinical trials.
+    </p>
+  </div>
+</section>
+
+<!-- EDUCATION -->
+<section class="section" id="education">
+  <div class="section-header">
+    <h2>Education</h2>
+    <span class="en-label">学歴</span>
+  </div>
+
+  <div class="edu-item">
+    <div class="edu-date">Aug 2025<br>– present</div>
+    <div class="edu-body">
+      <h4>The George Washington University</h4>
+      <div class="dept">School of Engineering and Applied Science · Biomedical Engineering</div>
+      <div class="degree">Ph.D. Student</div>
+      <div class="ja-line">ジョージ・ワシントン大学 生体医工学 博士課程</div>
+    </div>
+  </div>
+
+  <div class="edu-item">
+    <div class="edu-date">Apr 2025<br>– present</div>
+    <div class="edu-body">
+      <h4>The University of Electro-Communications</h4>
+      <div class="dept">Graduate School of Informatics and Engineering · Computer and Network Engineering</div>
+      <div class="degree">Ph.D. Student</div>
+      <div class="ja-line">電気通信大学 情報理工学研究科 博士後期課程</div>
+    </div>
+  </div>
+
+  <div class="edu-item">
+    <div class="edu-date">Apr 2023<br>– Mar 2025</div>
+    <div class="edu-body">
+      <h4>The University of Electro-Communications</h4>
+      <div class="dept">Graduate School of Informatics and Engineering · Computer and Network Engineering</div>
+      <div class="degree">Master of Engineering</div>
+      <div class="ja-line">電気通信大学 情報理工学研究科 博士前期課程 修士（工学）</div>
+    </div>
+  </div>
+
+  <div class="edu-item">
+    <div class="edu-date">Aug–Sep 2023</div>
+    <div class="edu-body">
+      <h4>State University of New York at Binghamton</h4>
+      <div class="dept">Department of Systems Science and Industrial Engineering</div>
+      <div class="degree">International Internship</div>
+      <div class="ja-line">ニューヨーク州立大学ビンガムトン校 国際インターンシップ</div>
+    </div>
+  </div>
+
+  <div class="edu-item">
+    <div class="edu-date">Apr 2019<br>– Mar 2023</div>
+    <div class="edu-body">
+      <h4>The University of Yamanashi</h4>
+      <div class="dept">Faculty of Engineering · Mechatronics Engineering</div>
+      <div class="degree">Bachelor of Engineering</div>
+      <div class="ja-line">山梨大学 工学部 メカトロニクス工学科 学士（工学）</div>
+    </div>
+  </div>
+</section>
+
+<!-- PUBLICATIONS -->
+<section class="section" id="publications">
+  <div class="section-header">
+    <h2>Publications</h2>
+    <span class="en-label">学術論文</span>
+  </div>
+
+  <p class="pub-group-title">Journal Papers / ジャーナル論文</p>
+
+  <div class="pub-item">
+    <span class="pub-num">1</span>
+    <div class="pub-body">
+      <strong>Hideaki Muramatsu</strong> and Shouhei Kidera,
+      "TDOA Prior Based Contrast Source Inversion for Microwave Ablation Zone Quantitative Imaging,"
+      <em>IEEE Transactions on Antennas and Propagations</em>, Feb 2025.
+      [<a href="https://doi.org/10.1109/TAP.2025.3538218" target="_blank" rel="noopener">doi: 10.1109/TAP.2025.3538218</a>]
+      <span class="peer-badge">Peer-reviewed</span>
+    </div>
+  </div>
+
+  <div class="pub-item">
+    <span class="pub-num">2</span>
+    <div class="pub-body">
+      <strong>Hideaki Muramatsu</strong> and Yutaka Suzuki,
+      "Detection of Bolus in Ultrasound Video Using YOLOv5 for Evaluation Swallowing,"
+      <em>Journal of Signal Processing</em>, Vol.28, No.4, Jul 2024.
+      [<a href="https://doi.org/10.2299/jsp.28.141" target="_blank" rel="noopener">doi: 2299/jsp.28.141</a>]
+      <span class="peer-badge">Peer-reviewed</span>
+    </div>
+  </div>
+
+  <p class="pub-group-title">Conference Papers / 国際学会論文</p>
+
+  <div class="pub-item">
+    <span class="pub-num">1</span>
+    <div class="pub-body">
+      Shouhei Kidera and <strong>Hideaki Muramatsu</strong>,
+      "Three-dimensional Quantitative Imaging by Incorporating TDOA and CSI schemes for Microwave Breast Cancer Ablation Treatment,"
+      <em>2025 URSI Asia-Pacific Radio Science Conference (AP-RASC 2025)</em>, Sydney, Australia, Aug 2025.
+      <span class="peer-badge">Peer-reviewed</span>
+    </div>
+  </div>
+
+  <div class="pub-item">
+    <span class="pub-num">2</span>
+    <div class="pub-body">
+      <strong>Hideaki Muramatsu</strong>, Yutaka Suzuki, Takao Kubo, and Masayuki Morisawa,
+      "Swallowing Parameters in Neck Ultrasound Video for Quantitative Evaluation of Jelly Beverages,"
+      <em>IEEE 13th Global Conference on Consumer Electronics (GCCE) 2024</em>, Kokura, Japan, Oct 2024.
+      <span class="peer-badge">Peer-reviewed</span>
+    </div>
+  </div>
+
+  <div class="pub-item">
+    <span class="pub-num">3</span>
+    <div class="pub-body">
+      Shuto Nakagomi, Yutaka Suzuki, Masayuki Morisawa, Hiromitsu Nishizaki, <strong>Hideaki Muramatsu</strong>, and Motoki Arakawa,
+      "Development of GUI Application for Multimodal Analysis for Evaluation of Swallowing Function,"
+      <em>IEEE 13th Global Conference on Consumer Electronics (GCCE) 2024</em>, Kokura, Japan, Oct 2024.
+      <span class="peer-badge">Peer-reviewed</span>
+    </div>
+  </div>
+
+  <div class="pub-item">
+    <span class="pub-num">4</span>
+    <div class="pub-body">
+      <strong>Hideaki Muramatsu</strong> and Shouhei Kidera,
+      "TDOA Prior Contrast Source Inversion for Microwave Ablation Quantitative Monitoring,"
+      <em>IEEE AP-S Symposium on Antennas and Propagation and USNC-URSI Radio Science Meeting (IEEE APS/URSI 2024)</em>, Florence, Italy, Jul 2024.
+      <span class="peer-badge">Peer-reviewed</span>
+    </div>
+  </div>
+
+  <div class="pub-item">
+    <span class="pub-num">5</span>
+    <div class="pub-body">
+      <strong>Hideaki Muramatsu</strong> and Shouhei Kidera,
+      "TDOA Prior Contrast Source Inversion for Complex Permittivity Imaging in Microwave Ablation Treatment,"
+      <em>General Conference, The Institute of Electronics, Information and Communication Engineers</em>, Higashi-Hiroshima, Japan, Mar 2024.
+    </div>
+  </div>
+
+  <div class="pub-item">
+    <span class="pub-num">6</span>
+    <div class="pub-body">
+      <strong>Hideaki Muramatsu</strong> and Yutaka Suzuki,
+      "Detection of Bolus in Ultrasound Video Using YOLOv5 for Evaluation Swallowing,"
+      <em>RISP International Workshop on Nonlinear Circuits (NCSP)</em>, No.64, Hybrid, Feb 2024.
+      <span class="peer-badge">Peer-reviewed</span>
+    </div>
+  </div>
+
+  <div class="pub-item">
+    <span class="pub-num">7</span>
+    <div class="pub-body">
+      <strong>Hideaki Muramatsu</strong>, Yutaka Suzuki, Masayuki Morisawa, and Takao Kubo,
+      "Ultrasound Video Processing-Based Approach for Sensory Analysis and Quantitative Evaluation of Swallowing Jelly Beverages,"
+      <em>IEEE 12th Global Conference on Consumer Electronics (GCCE) 2023</em>, Nara, Japan, Oct 2023.
+      [<a href="https://doi.org/10.1109/GCCE59613.2023.10315555" target="_blank" rel="noopener">doi: 10.1109/GCCE59613.2023.10315555</a>]
+      <span class="peer-badge">Peer-reviewed</span>
+    </div>
+  </div>
+</section>
+
+<!-- AWARDS -->
+<section class="section" id="awards">
+  <div class="section-header">
+    <h2>Awards</h2>
+    <span class="en-label">受賞</span>
+  </div>
+
+  <div class="award-item">
+    <div class="award-bullet"></div>
+    <div class="award-body">
+      <strong>Best Graduation Thesis Presentation Award</strong><br>
+      Yamanashi University, Mar 2023<br>
+      <span style="font-size:0.82rem;color:var(--muted)">卒業論文優秀発表賞，2023年3月，山梨大学</span>
+    </div>
+  </div>
+
+  <div class="award-item">
+    <div class="award-bullet"></div>
+    <div class="award-body">
+      <strong>NCSP'24 Student Paper Award</strong><br>
+      "Detection of Bolus in Ultrasound Video Using YOLOv5 for Evaluation Swallowing,"
+      RISP International Workshop on Nonlinear Circuits (NCSP), No.64, Hybrid, Feb 2024.
+    </div>
+  </div>
+</section>
+
+<!-- SKILLS -->
+<section class="section" id="skills">
+  <div class="section-header">
+    <h2>Skills</h2>
+    <span class="en-label">スキル</span>
+  </div>
+
+  <p class="skills-sub">Software &amp; Tools</p>
+  <div class="skills-grid">
+    <div class="skill-chip">COMSOL Multiphysics</div>
+    <div class="skill-chip">MATLAB</div>
+    <div class="skill-chip">Python (PyTorch)</div>
+    <div class="skill-chip">LaTeX</div>
+    <div class="skill-chip">HTML / CSS / JS</div>
+    <div class="skill-chip">C</div>
+    <div class="skill-chip">VBA</div>
+  </div>
+
+  <p class="skills-sub">English Proficiency</p>
+  <div class="skills-grid">
+    <div class="skill-chip">IELTS 6.5 (Dec 2024)</div>
+    <div class="skill-chip">IELTS One-skill retake 7.0</div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <span class="footer-name">Hideaki Muramatsu / 村松 英明</span>
+  <span class="footer-note">George Washington University · Biomedical Engineering</span>
+</footer>
+
+</body>
+</html>
