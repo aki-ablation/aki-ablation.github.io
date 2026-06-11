@@ -314,6 +314,25 @@
       margin: 1.6rem 0 0.9rem;
     }
 
+    /* ─── CONTACT ──────────────────────────────────────────────────── */
+    .contact-grid { display: flex; flex-direction: column; gap: 1.2rem; }
+    .contact-item { display: grid; grid-template-columns: 90px 1fr; gap: 1rem; align-items: baseline; }
+    .contact-label {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.72rem;
+      color: var(--amber);
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+    }
+    .contact-value {
+      font-size: 0.93rem;
+      color: var(--text2);
+      text-decoration: none;
+      border-bottom: 1px solid rgba(58,140,140,0.25);
+      transition: color 0.2s, border-color 0.2s;
+    }
+    .contact-value:hover { color: var(--amber2); border-color: var(--amber2); }
+
     /* ─── FOOTER ───────────────────────────────────────────────────── */
     footer {
       border-top: 1px solid var(--border);
@@ -354,6 +373,7 @@
     <li><a href="#publications">論文</a></li>
     <li><a href="#awards">受賞</a></li>
     <li><a href="#skills">スキル</a></li>
+    <li><a href="#contact">連絡先</a></li>
     <li><a href="index.html" class="lang-switch">EN</a></li>
   </ul>
 </nav>
@@ -624,6 +644,24 @@
   <div class="skills-grid">
     <div class="skill-chip">IELTS 6.5（2024年12月）</div>
     <div class="skill-chip">IELTS One-skill retake 7.0</div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section class="section" id="contact">
+  <div class="section-header">
+    <h2>連絡先</h2>
+    <span class="sub-label">Contact</span>
+  </div>
+  <div class="contact-grid">
+    <div class="contact-item">
+      <span class="contact-label">Email</span>
+      <a class="contact-value" href="mailto:h.muramatsu@gwmail.gwu.edu">h.muramatsu(at)gwmail.gwu.edu</a>
+    </div>
+    <div class="contact-item">
+      <span class="contact-label">LinkedIn</span>
+      <a class="contact-value" href="https://www.linkedin.com/in/hideaki-muramatsu-7321b1284" target="_blank" rel="noopener">linkedin.com/in/hideaki-muramatsu-7321b1284</a>
+    </div>
   </div>
 </section>
 
