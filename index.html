@@ -80,6 +80,28 @@
     }
     .lang-switch:hover { color: var(--amber2); border-color: var(--amber2); }
 
+    /* ─── NAV TOGGLE (mobile hamburger) ────────────────────────────── */
+    .nav-toggle {
+      display: none;
+      flex-direction: column;
+      justify-content: center;
+      gap: 5px;
+      width: 40px; height: 38px;
+      padding: 0 9px;
+      background: transparent;
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      cursor: pointer;
+    }
+    .nav-toggle span {
+      display: block; width: 100%; height: 1.5px;
+      background: var(--amber);
+      transition: transform 0.25s ease, opacity 0.2s ease;
+    }
+    nav.open .nav-toggle span:nth-child(1) { transform: translateY(6.5px) rotate(45deg); }
+    nav.open .nav-toggle span:nth-child(2) { opacity: 0; }
+    nav.open .nav-toggle span:nth-child(3) { transform: translateY(-6.5px) rotate(-45deg); }
+
     /* ─── HERO ─────────────────────────────────────────────────────── */
     .hero {
       min-height: 100vh;
@@ -373,8 +395,21 @@
 
     /* ─── RESPONSIVE ───────────────────────────────────────────────── */
     @media (max-width: 640px) {
-      nav { padding: 0.9rem 1.2rem; }
-      .nav-links { gap: 1.2rem; }
+      nav { padding: 0.9rem 1.2rem; flex-wrap: wrap; }
+      .nav-toggle { display: flex; }
+      .nav-links {
+        flex-basis: 100%;
+        flex-direction: column;
+        align-items: stretch;
+        gap: 0;
+        max-height: 0;
+        overflow: hidden;
+        transition: max-height 0.3s ease;
+      }
+      nav.open .nav-links { max-height: 80vh; margin-top: 0.7rem; }
+      .nav-links li { border-top: 1px solid var(--border); }
+      .nav-links a { display: block; padding: 0.85rem 0.2rem; font-size: 0.95rem; }
+      .nav-links .lang-switch { display: inline-block; margin: 0.6rem 0.2rem; padding: 0.3rem 0.8rem; }
       .hero, .section { padding-left: 1.2rem; padding-right: 1.2rem; }
       .edu-item { grid-template-columns: 1fr; gap: 0.3rem; }
       footer { flex-direction: column; }
@@ -390,11 +425,15 @@
 <!-- NAV -->
 <nav>
   <span class="nav-name">H. Muramatsu</span>
+  <button class="nav-toggle" aria-label="Menu" aria-expanded="false">
+    <span></span><span></span><span></span>
+  </button>
   <ul class="nav-links">
     <li><a href="#research">Research</a></li>
     <li><a href="#education">Education</a></li>
     <li><a href="#publications">Publications</a></li>
     <li><a href="#awards">Awards</a></li>
+    <li><a href="#scholarship">Scholarship</a></li>
     <li><a href="#skills">Skills</a></li>
     <li><a href="#contact">Contact</a></li>
     <li><a href="ja.html" class="lang-switch">日本語</a></li>
@@ -651,6 +690,57 @@
   </div>
 </section>
 
+<!-- SCHOLARSHIP -->
+<section class="section" id="scholarship">
+  <div class="section-header">
+    <h2>Scholarship</h2>
+    <span class="en-label">奨学金</span>
+  </div>
+
+  <div class="award-item">
+    <div class="award-bullet"></div>
+    <div class="award-body">
+      <strong>Collins Distinguished Doctoral Fellowship</strong><br>
+      The George Washington University, Jun 2026 – Aug 2026
+    </div>
+  </div>
+
+  <div class="award-item">
+    <div class="award-bullet"></div>
+    <div class="award-body">
+      <strong>Research Assistant</strong> — The George Washington University<br>
+      Sep 2025 – Aug 2026
+    </div>
+  </div>
+
+  <div class="award-item">
+    <div class="award-bullet"></div>
+    <div class="award-body">
+      <strong>Nakajima Foundation International Scholarship</strong><br>
+      Aug 2025 – Jul 2027<br>
+      <span style="font-size:0.82rem;color:var(--muted)">中島記念国際奨学金，2025年8月〜2027年7月</span>
+    </div>
+  </div>
+
+  <div class="award-item">
+    <div class="award-bullet"></div>
+    <div class="award-body">
+      <strong>Research Assistant</strong> — The University of Electro-Communications<br>
+      May 2025 – Jul 2025<br>
+      <span style="font-size:0.82rem;color:var(--muted)">リサーチアシスタント（電気通信大学），2025年5月〜7月</span>
+    </div>
+  </div>
+
+  <div class="award-item">
+    <div class="award-bullet"></div>
+    <div class="award-body">
+      <strong>UEC Graduate School Scholarship Program for Doctoral Course Students</strong><br>
+      Apr 2025 – Aug 2025<br>
+      <span style="font-size:0.82rem;color:var(--muted)">電気通信大学大学院博士後期課程奨学金，2025年4月〜8月</span>
+    </div>
+  </div>
+</section>
+
 <!-- SKILLS -->
 <section class="section" id="skills">
   <div class="section-header">
@@ -699,6 +789,23 @@
   <span class="footer-name">Hideaki Muramatsu / 村松 英明</span>
   <span class="footer-note">George Washington University · Biomedical Engineering</span>
 </footer>
+
+<script>
+  (function () {
+    var nav = document.querySelector('nav');
+    var toggle = nav.querySelector('.nav-toggle');
+    toggle.addEventListener('click', function () {
+      var open = nav.classList.toggle('open');
+      toggle.setAttribute('aria-expanded', open);
+    });
+    nav.querySelectorAll('.nav-links a').forEach(function (a) {
+      a.addEventListener('click', function () {
+        nav.classList.remove('open');
+        toggle.setAttribute('aria-expanded', 'false');
+      });
+    });
+  })();
+</script>
 
 </body>
 </html>
